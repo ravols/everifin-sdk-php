@@ -10,20 +10,35 @@ class GetOrderResponse
     use ResponseTrait;
 
     public string $id;
+
     public float $amount;
+
     public string $currency;
+
     public string $refundLimitPercentage;
+
     public string $recipientIban;
+
     public string $recipientName;
+
     public string $recipientBankBic;
+
     public string $status;
+
     public string $externalId;
+
     public string $canBeWithdrawn;
+
     public string $canBeUpdated;
+
     public string $sumOfPaid;
+
     public string $sumOfRefunded;
+
     public string $createdAt;
+
     public array $payments = [];
+
     public array $refunds = [];
 
     public static function fromResponse(ResponseInterface $guzzleResponse): self

@@ -10,9 +10,13 @@ class CreatePaymentResponse
     use ResponseTrait;
 
     public string $status;
+
     public string $id;
+
     public string $processablePaymentId;
+
     public string $link;
+
     public string $paymentStatus;
 
     public static function fromResponse(ResponseInterface $guzzleResponse): self

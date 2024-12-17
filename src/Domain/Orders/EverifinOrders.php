@@ -38,7 +38,7 @@ class EverifinOrders
 
         $request = new Request(
             method: 'GET',
-            uri: everifinConfig(key: 'order_endpoint') . '/' . $orderId,
+            uri: everifinConfig(key: 'order_endpoint').'/'.$orderId,
             headers: $this->getClient()->getHeaders()
         );
 

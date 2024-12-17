@@ -16,7 +16,7 @@ class EverifinPayments
 
         $request = new Request(
             method: 'GET',
-            uri: everifinConfig(key: 'payment_endpoint') . '/' . $paymentId,
+            uri: everifinConfig(key: 'payment_endpoint').'/'.$paymentId,
             headers: $this->getClient()->getHeaders(),
         );
 

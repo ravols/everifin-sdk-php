@@ -13,7 +13,7 @@ trait ResponseTrait
         $decodedResponse = json_decode($guzzleResponse->getBody()->getContents());
 
         if (isset($decodedResponse->errors) && count($decodedResponse->errors)) {
-            throw new Exception('There are errors being present in the everifin response. Errors: ' . json_encode($decodedResponse->errors));
+            throw new Exception('There are errors being present in the everifin response. Errors: '.json_encode($decodedResponse->errors));
         }
 
         if (! isset($decodedResponse->data)) {
@@ -25,7 +25,7 @@ trait ResponseTrait
         }
 
         if (isset($decodedResponse->meta) && $decodedResponse->meta->status !== ResponseMetaStatus::SUCCESS->value) {
-            throw new Exception('Response from everifin is not Successful. Response: ' . json_encode($decodedResponse));
+            throw new Exception('Response from everifin is not Successful. Response: '.json_encode($decodedResponse));
         }
 
         return $decodedResponse;
