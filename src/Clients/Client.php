@@ -31,7 +31,7 @@ class Client
         $headers = [
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
-            'Authorization' => 'Bearer ' . $this->getToken(),
+            'Authorization' => 'Bearer '.$this->getToken(),
         ];
 
         return $headers;
