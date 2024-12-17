@@ -39,7 +39,9 @@ class GetPaymentResponse
     public string $createdAt;
 
     public string $confirmedAt;
+
     public ?string $finalizedAt;
+
     public string $recipientBankBic;
 
     public string $recipientName;
