@@ -35,6 +35,7 @@ class EverifinOrders
     public function getOrder(string $orderId): GetOrderResponse
     {
         $guzzleClient = $this->getClient()->getClient();
+
         $request = new Request(
             method: 'GET',
             uri: everifinConfig(key: 'order_endpoint') . '/' . $orderId,
