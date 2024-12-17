@@ -7,26 +7,45 @@ use Psr\Http\Message\ResponseInterface;
 class GetPaymentResponse
 {
     public string $id;
+
     public string $orderId;
+
     public ?string $instructionId;
+
     public string $amount;
+
     public string $currency;
+
     public string $recipientIban;
+
     public ?string $senderIban;
+
     public string $senderBankId;
+
     public string $senderBankBic;
+
     public string $variableSymbol;
+
     public string $constantSymbol;
+
     public string $specificSymbol;
+
     public ?string $reference;
+
     public string $paymentMessage;
+
     public string $status;
+
     public string $createdAt;
+
     public string $confirmedAt;
     public ?string $finalizedAt;
     public string $recipientBankBic;
+
     public string $recipientName;
+
     public ?string $hookData;
+
     public string $disableHooks;
 
     public static function fromResponse(ResponseInterface $guzzleResponse): self

@@ -8,7 +8,7 @@ class Config
 
     public function __construct()
     {
-        $this->config = include dirname(__DIR__, 1) . '/config/everifin.php';
+        $this->config = include dirname(__DIR__, 1).'/config/everifin.php';
     }
 
     public function getConfigValues(): array
