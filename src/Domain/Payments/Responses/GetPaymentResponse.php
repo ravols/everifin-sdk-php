@@ -23,7 +23,7 @@ class GetPaymentResponse
     public string $status;
     public string $createdAt;
     public string $confirmedAt;
-    public string $finalizedAt;
+    public ?string $finalizedAt;
     public string $recipientBankBic;
     public string $recipientName;
     public ?string $hookData;
@@ -33,6 +33,7 @@ class GetPaymentResponse
     {
         $decodedResponse = json_decode($guzzleResponse->getBody()->getContents());
         $responseData = $decodedResponse->data;
+
         $self = new self;
         $self->id = $responseData->id;
         $self->orderId = $responseData->orderId;
