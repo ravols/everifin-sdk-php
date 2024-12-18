@@ -12,12 +12,12 @@ class EverifinPayments
 
     public function getPayment(string $paymentId): GetPaymentResponse
     {
-        $guzzleClient = $this->getClient()->getClient();
+        $guzzleClient = $this->client()->getClient();
 
         $request = new Request(
             method: 'GET',
             uri: everifinConfig(key: 'payment_endpoint') . '/' . $paymentId,
-            headers: $this->getClient()->getHeaders(),
+            headers: $this->client()->getHeaders(),
         );
 
         try {
