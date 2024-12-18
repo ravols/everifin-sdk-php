@@ -23,8 +23,7 @@
     "autoload": {
         "psr-4": {
             "Ravols\\EverifinPhp\\": "src/"
-        },
-        "files": ["src/Helpers/config_helper.php"]
+        }
     },
     "autoload-dev": {
         "psr-4": {

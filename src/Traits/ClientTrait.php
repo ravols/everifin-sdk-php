@@ -8,7 +8,7 @@ trait ClientTrait
 {
     private ?Client $client = null;
 
-    private function getClient(): Client
+    private function client(): Client
     {
         $this->client = $this->client ?? new Client;
 
