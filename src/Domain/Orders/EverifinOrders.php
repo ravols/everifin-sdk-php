@@ -3,16 +3,15 @@
 namespace Ravols\EverifinPhp\Domain\Orders;
 
 use GuzzleHttp\Psr7\Request;
+use Ravols\EverifinPhp\Config;
 use Ravols\EverifinPhp\Domain\Orders\Requests\CreatePaymentRequest;
 use Ravols\EverifinPhp\Domain\Orders\Responses\CreatePaymentResponse;
 use Ravols\EverifinPhp\Domain\Orders\Responses\GetOrderResponse;
 use Ravols\EverifinPhp\Traits\ClientTrait;
-use Ravols\EverifinPhp\Traits\ConfigTrait;
 
 class EverifinOrders
 {
     use ClientTrait;
-    use ConfigTrait;
 
     public function createOrderPaymentResponse(CreatePaymentRequest $createPaymentRequest): CreatePaymentResponse
     {
@@ -20,7 +19,7 @@ class EverifinOrders
 
         $request = new Request(
             method: 'POST',
-            uri: everifinConfig(key: 'order_endpoint'),
+            uri: Config::getInstance()->getOrderEndpoint(),
             headers: $this->client()->getHeaders(),
             body: $createPaymentRequest->toJson()
         );
@@ -40,7 +39,7 @@ class EverifinOrders
 
         $request = new Request(
             method: 'GET',
-            uri: everifinConfig(key: 'order_endpoint') . '/' . $orderId,
+            uri: Config::getInstance()->getOrderEndpoint() . '/' . $orderId,
             headers: $this->client()->getHeaders()
         );
 

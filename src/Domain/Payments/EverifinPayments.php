@@ -3,6 +3,7 @@
 namespace Ravols\EverifinPhp\Domain\Payments;
 
 use GuzzleHttp\Psr7\Request;
+use Ravols\EverifinPhp\Config;
 use Ravols\EverifinPhp\Domain\Payments\Responses\GetPaymentResponse;
 use Ravols\EverifinPhp\Traits\ClientTrait;
 
@@ -16,7 +17,7 @@ class EverifinPayments
 
         $request = new Request(
             method: 'GET',
-            uri: everifinConfig(key: 'payment_endpoint') . '/' . $paymentId,
+            uri: Config::getInstance()->getPaymentEndpoint() . '/' . $paymentId,
             headers: $this->client()->getHeaders(),
         );
 
