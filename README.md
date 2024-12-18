@@ -1,19 +1,7 @@
-# PHP sdk for Everifin payment gateway.
+# PHP SDK for Everifin payment gateway
+![image](https://github.com/user-attachments/assets/5fa2a114-16fd-4db8-ab5c-e7fb7a834914)
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/ravols/everifin-sdk-php.svg?style=flat-square)](https://packagist.org/packages/ravols/everifin-sdk-php)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/ravols/everifin-sdk-php/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/ravols/everifin-sdk-php/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/ravols/everifin-sdk-php/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/ravols/everifin-sdk-php/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/ravols/everifin-sdk-php.svg?style=flat-square)](https://packagist.org/packages/ravols/everifin-sdk-php)
-
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/everifin-sdk-php.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/everifin-sdk-php)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+This package is a clean SDK for PHP implementation of Everifin Payment Gateway. By using this package you can create new payments, redirects to gateway and process payments in no time.
 
 ## Installation
 
@@ -23,61 +11,56 @@ You can install the package via composer:
 composer require ravols/everifin-sdk-php
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="everifin-sdk-php-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="everifin-sdk-php-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="everifin-sdk-php-views"
-```
-
 ## Usage
 
+There are multiple modules each representing a domain of services that everifin provides. Let's say you want the most wanted things, which is to create a new order and get a redirect url which will take your customer to Everifin payment gateway, so that you customer can pay for your order.
+
+First of all we need to setup a Config object.
 ```php
-$everifinPhp = new Ravols\EverifinPhp();
-echo $everifinPhp->echoPhrase('Hello, Ravols!');
+Config::getInstance()->setClientId('your-client-id')->setClientSecret('your-client-secret')->setClientIban('your-recipient-iban');
 ```
+This config needs to be setup only once, as it is accessible as a singleton throughout your application lifecycle.
 
-## Testing
+Lets create new everifin order in order to get our payment redirect url.
+```php
+$everifinOrderModule = new EverifinOrders; //Represents Everifin Order domain
 
-```bash
-composer test
+$createOrderRequest = new CreatePaymentRequest(
+    amount: 120.99, //float or int
+    currency: 'EUR', //Need to be standard currency code
+    redirectUrl: 'your-redirect-url', //where customer will land after payment / cancelling the payment on everifin
+    recipientIban: Config::getInstance()->getClientIban(),
+    variableSymbol: 'variable-symbol', //order number for example, there is a lenght limitation though
+    message: 'message-if-you-want',
+    email: 'customer-email',
+);
+
+//This response data contain much more than just the link, for this example we are just interested in the redirect link
+$createOrderPaymentResponseData = $everifinOrderModule->createOrderPaymentResponse(createPaymentRequest:$createOrderRequest);
+
+$url = $createOrderPaymentResponseData->link;
+//Your logic follows with the link - redirect, send via email etc.
 ```
+Great! So now we have our link and let's simulate that we want to process this payment once your customer pays or cancels the payment.
+```php
+//Depending how you build your Config class you may or may not build it again, for this example we start from scratch
+Config::getInstance()->setClientId('your-client-id')->setClientSecret('your-client-secret')->setClientIban('your-recipient-iban');
 
-## Changelog
+//Lets get details about the payment
+$everifinPayment = new EverifinPayments;
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+//The order id is send to you as a request GET paramter to the redirect url specified in the redirectUrl parameter when creating an order
+$responseData = $everifinPayment->getPayment(paymentId: 'f459c0b7-949e-4266-854d-8f451d5e3c68'); //returns GetPaymentResponse object
 
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+$statusOfPayment = $responseData->status; //BOOKED, or other status which can be found in the official everifin docs
+//Your logic depending on the status follows here - process order, cancel order etc.
+```
+List of statuses and more information about everifin API can be found in their [documentation](https://everifin.atlassian.net/wiki/spaces/EPAD/pages/2467561491/Paygate+Payment+Flow)
 
 ## Credits
 
 - [Rudolf Bruder](https://github.com/rudolfbruder)
-- [All Contributors](../../contributors)
+- [Jaroslav Štefanec](https://github.com/jaroslavstefanec)
 
 ## License
 
