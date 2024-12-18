@@ -3,6 +3,7 @@
 namespace Ravols\EverifinPhp\Domain\Orders;
 
 use GuzzleHttp\Psr7\Request;
+use Ravols\EverifinPhp\Config;
 use Ravols\EverifinPhp\Domain\Orders\Requests\CreatePaymentRequest;
 use Ravols\EverifinPhp\Domain\Orders\Responses\CreatePaymentResponse;
 use Ravols\EverifinPhp\Domain\Orders\Responses\GetOrderResponse;
@@ -14,12 +15,12 @@ class EverifinOrders
 
     public function createOrderPaymentResponse(CreatePaymentRequest $createPaymentRequest): CreatePaymentResponse
     {
-        $guzzleClient = $this->getClient()->getClient();
+        $guzzleClient = $this->client()->getClient();
 
         $request = new Request(
             method: 'POST',
-            uri: everifinConfig(key: 'order_endpoint'),
-            headers: $this->getClient()->getHeaders(),
+            uri: Config::getInstance()->getOrderEndpoint(),
+            headers: $this->client()->getHeaders(),
             body: $createPaymentRequest->toJson()
         );
 
@@ -34,12 +35,12 @@ class EverifinOrders
 
     public function getOrder(string $orderId): GetOrderResponse
     {
-        $guzzleClient = $this->getClient()->getClient();
+        $guzzleClient = $this->client()->getClient();
 
         $request = new Request(
             method: 'GET',
-            uri: everifinConfig(key: 'order_endpoint').'/'.$orderId,
-            headers: $this->getClient()->getHeaders()
+            uri: Config::getInstance()->getOrderEndpoint() . '/' . $orderId,
+            headers: $this->client()->getHeaders()
         );
 
         try {
