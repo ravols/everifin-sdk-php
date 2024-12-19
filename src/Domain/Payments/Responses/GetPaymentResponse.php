@@ -25,7 +25,7 @@ class GetPaymentResponse
     public string $paymentMessage;
     public string $status;
     public string $createdAt;
-    public string $confirmedAt;
+    public ?string $confirmedAt;
     public ?string $finalizedAt;
     public string $recipientBankBic;
     public string $recipientName;
@@ -54,8 +54,8 @@ class GetPaymentResponse
         $self->paymentMessage = $responseData->paymentMessage;
         $self->status = $responseData->status;
         $self->createdAt = $responseData->createdAt;
-        $self->confirmedAt = $responseData->confirmedAt;
-        $self->finalizedAt = $responseData->finalizedAt;
+        $self->confirmedAt = $responseData?->confirmedAt ?? null;
+        $self->finalizedAt = $responseData?->finalizedAt ?? null;
         $self->recipientBankBic = $responseData->recipientBankBic;
         $self->recipientName = $responseData->recipientName;
         $self->hookData = $responseData->hookData;
