@@ -13,7 +13,7 @@ trait ResponseTrait
         $decodedResponse = json_decode($guzzleResponse->getBody()->getContents());
 
         if (isset($decodedResponse->errors) && count($decodedResponse->errors)) {
-            throw new ResponseException(message: 'There are errors being present in the everifin response. Errors: ' . json_encode($decodedResponse->errors), code: ResponseException::CODE_ERRORS_IN_RESPONSE);
+            throw new ResponseException(message: 'There are errors being present in the everifin response. Errors: ' . json_encode($decodedResponse->errors), code: ResponseException::CODE_ERRORS_IN_RESPONSE, errors: $decodedResponse->errors);
         }
 
         if (! isset($decodedResponse->data)) {
