@@ -1,4 +1,5 @@
 # PHP SDK for Everifin payment gateway
+![image](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![image](https://github.com/user-attachments/assets/5fa2a114-16fd-4db8-ab5c-e7fb7a834914)
 
 This package is a clean SDK for PHP implementation of Everifin Payment Gateway. By using this package you can create new payments, redirects to gateway and process payments in no time.
