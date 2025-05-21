@@ -13,15 +13,15 @@ class GetClientBanksResponse
 
     public string $name;
 
-    public string $countryCode;
+    public ?string $countryCode;
     
-    public string $countryCodeAlpha2;
+    public ?string $countryCodeAlpha2;
 
-    public string $itemType;
+    public ?string $itemType;
 
-    public string $bic;
+    public ?string $bic;
 
-    public string $logoUrl;
+    public ?string $logoUrl;
 
 
     public static function fromResponse(ResponseInterface $guzzleResponse): array
