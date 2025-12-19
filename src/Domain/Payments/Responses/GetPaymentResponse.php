@@ -31,6 +31,7 @@ class GetPaymentResponse
     public ?string $recipientName;
     public ?string $hookData;
     public ?string $disableHooks;
+    public ?string $failureReasonCode;
 
     public static function fromResponse(ResponseInterface $guzzleResponse): self
     {
@@ -59,6 +60,7 @@ class GetPaymentResponse
         $self->recipientName = $responseData?->recipientName ?? null;
         $self->hookData = $responseData->hookData;
         $self->disableHooks = $responseData->disableHooks;
+        $self->failureReasonCode = $responseData->reasonCode ?? null;
 
         return $self;
     }
